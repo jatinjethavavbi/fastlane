@@ -1,9 +1,9 @@
 export const GENERATED_IMAGES = {
-  skincare: '/src/assets/images/ad_skincare_editorial_1794908395716.jpg',
-  audio: '/src/assets/images/ad_audio_hardware_1794908395903.jpg',
-  lifestyle: '/src/assets/images/ad_creator_lifestyle_1794908396875.jpg',
-  athletic: '/src/assets/images/ad_athletic_runner_1794908396789.jpg',
-  roastery: '/src/assets/images/case_study_roastery_1794908397891.jpg',
+  skincare: '/images/ad_skincare_editorial_1794908395716.jpg',
+  audio: '/images/ad_audio_hardware_1794908395903.jpg',
+  lifestyle: '/images/ad_creator_lifestyle_1794908396875.jpg',
+  athletic: '/images/ad_athletic_runner_1794908396789.jpg',
+  roastery: '/images/case_study_roastery_1794908397891.jpg',
 } as const;
 
 export type GalleryFormat = 'all' | 'creator' | 'editorial' | 'comparison';

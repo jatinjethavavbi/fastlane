@@ -1,129 +1,77 @@
-import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 
 interface NavbarProps {
-  onNavigate: (id: string) => void;
-  onOpenTrial: (plan?: string) => void;
+  onStartNow: () => void;
 }
 
-const NAV_LINKS = [
-  { label: 'Workflow', id: 'how-it-works' },
-  { label: 'Research', id: 'brand-research' },
-  { label: 'Showcase', id: 'ad-showcase' },
-  { label: 'Case Study', id: 'case-study' },
-  { label: 'Pricing', id: 'pricing' },
-];
-
-export function Navbar({ onNavigate, onOpenTrial }: NavbarProps) {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+export function Navbar({ onStartNow }: NavbarProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 24);
+      setIsScrolled(window.scrollY > 12);
     };
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleLinkClick = (id: string) => {
-    setMobileOpen(false);
-    onNavigate(id);
-  };
-
   return (
-    <header
-      className={`fixed top-0 inset-x-0 z-50 transition-colors duration-200 ${
-        scrolled
-          ? 'bg-[#FAFAFA]/90 backdrop-blur-md border-b border-neutral-200/80'
-          : 'bg-transparent border-b border-transparent'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between gap-8">
-        {/* Zone 1: Single-line Brand Wordmark */}
+    <header className="fixed top-0 inset-x-0 z-50 pointer-events-none px-4 sm:px-8 pt-3 sm:pt-4">
+      <div
+        className={`mx-auto pointer-events-auto flex items-center justify-between rounded-full transition-all duration-300 ease-out ${
+          isScrolled
+            ? 'max-w-[780px] bg-white/45 backdrop-blur-xl backdrop-saturate-150 border border-white/75 px-4 sm:px-5 py-2 shadow-[0_12px_36px_-6px_rgba(0,0,0,0.12),0_4px_14px_-4px_rgba(0,0,0,0.06),inset_0_1px_1px_rgba(255,255,255,0.95),inset_0_-1px_1px_rgba(0,0,0,0.04)]'
+            : 'max-w-[1280px] bg-transparent border border-transparent px-2 sm:px-4 py-2 shadow-none'
+        }`}
+      >
+        {/* Fastlane Emblem + Wordmark */}
         <a
           href="#top"
           onClick={(e) => {
             e.preventDefault();
-            onNavigate('top');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="font-display text-xl font-bold tracking-tight text-[#111216] whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] rounded-sm"
+          className="inline-flex items-center gap-2.5 text-[#111114] whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#059669] rounded-full pl-1 pr-2 py-1"
         >
-          Velox
+          <svg
+            width="22"
+            height="16"
+            viewBox="0 0 26 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            className="shrink-0"
+          >
+            <path
+              d="M7.8 2.2C8.2 1.4 9.0 1 9.9 1H23.2C24.2 1 24.8 2.0 24.3 2.9L22.7 5.7C22.3 6.5 21.5 6.9 20.6 6.9H7.3C6.3 6.9 5.7 5.9 6.2 5.0L7.8 2.2Z"
+              fill="#0E0E11"
+            />
+            <path
+              d="M3.0 10.6C3.4 9.8 4.2 9.4 5.1 9.4H14.5C15.5 9.4 16.1 10.4 15.6 11.3L14.0 14.1C13.6 14.9 12.8 15.3 11.9 15.3H2.5C1.5 15.3 0.9 14.3 1.4 13.4L3.0 10.6Z"
+              fill="#0E0E11"
+            />
+          </svg>
+          <span className="font-display text-[17px] font-semibold tracking-tight text-[#111114]">
+            Fastlane
+          </span>
         </a>
 
-        {/* Zone 2: 5 Concise Single-Line Navigation Links */}
-        <nav aria-label="Primary" className="hidden md:flex items-center gap-7">
-          {NAV_LINKS.map((link) => (
-            <button
-              key={link.id}
-              type="button"
-              onClick={() => handleLinkClick(link.id)}
-              className="text-sm font-medium text-neutral-600 hover:text-[#111216] transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[1.5px] after:bg-[#111216] hover:after:w-full after:transition-all after:duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] rounded-sm"
-            >
-              {link.label}
-            </button>
-          ))}
-        </nav>
-
-        {/* Zone 3: Single Primary Action + Mobile Trigger */}
-        <div className="flex items-center gap-3 shrink-0">
-          <button
-            type="button"
-            onClick={() => onOpenTrial()}
-            className="hidden sm:inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-[#111216] hover:bg-[#2563EB] rounded-lg transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2"
-          >
-            Start 7-Day Trial
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setMobileOpen((prev) => !prev)}
-            aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={mobileOpen}
-            className="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-lg text-[#111216] hover:bg-neutral-100 transition-colors cursor-pointer"
-          >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
+        {/* Glossy 3D Start Now Pill with Circular Arrow Badge */}
+        <button
+          type="button"
+          onClick={onStartNow}
+          className="group inline-flex items-center gap-2.5 bg-gradient-to-b from-[#2A2A2F] via-[#141418] to-[#09090B] hover:from-[#33333A] hover:via-[#1B1B20] hover:to-[#0E0E11] active:scale-[0.98] text-white text-[13px] sm:text-sm font-semibold pl-4 sm:pl-5 pr-1.5 py-1.5 rounded-full border border-black/80 shadow-[0_6px_16px_-4px_rgba(0,0,0,0.35),inset_0_1px_1px_rgba(255,255,255,0.28)] transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#059669] focus-visible:ring-offset-2"
+        >
+          <span>Start now</span>
+          <span className="w-7 h-7 rounded-full bg-white/12 border border-white/10 inline-flex items-center justify-center transition-transform duration-150 group-hover:translate-x-0.5">
+            <ArrowRight className="w-3.5 h-3.5 text-white" strokeWidth={2.25} />
+          </span>
+        </button>
       </div>
-
-      {/* Responsive Mobile Menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden bg-[#FAFAFA] border-b border-neutral-200 px-5 py-4 shadow-sm"
-          >
-            <div className="flex flex-col gap-1">
-              {NAV_LINKS.map((link) => (
-                <button
-                  key={link.id}
-                  type="button"
-                  onClick={() => handleLinkClick(link.id)}
-                  className="w-full text-left py-3 px-2 text-base font-medium text-neutral-800 hover:text-[#2563EB] rounded-md transition-colors cursor-pointer"
-                >
-                  {link.label}
-                </button>
-              ))}
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileOpen(false);
-                  onOpenTrial();
-                }}
-                className="mt-3 w-full py-3 px-4 text-sm font-medium text-white bg-[#111216] hover:bg-[#2563EB] rounded-lg transition-colors cursor-pointer min-h-[44px]"
-              >
-                Start 7-Day Trial
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
   );
 }
