@@ -9,7 +9,7 @@ import {
   useTransform,
   type PanInfo,
 } from 'motion/react';
-import { ArrowRight, RotateCcw, Heart, X, Sparkles, Volume2, VolumeX } from 'lucide-react';
+import { ArrowRight, RotateCcw, Heart, X, Sparkles } from 'lucide-react';
 
 interface HeroSectionProps {
   onStartFree: () => void;
@@ -242,7 +242,7 @@ function TarotCard({ card, isTop, stackIndex, onSwipe }: TarotCardProps) {
         </span>
       </motion.div>
 
-      {/* Top Format & Metric Badges (Exact 2nd Image Match) */}
+      {/* Top Format & Metric Badges */}
       <div className="absolute top-4 inset-x-4 flex items-center justify-between z-10 pointer-events-none">
         <span className="px-2.5 py-1 rounded-md bg-[#0D3823]/90 backdrop-blur-md border border-emerald-500/30 text-[10px] font-mono font-bold tracking-wider text-emerald-200 uppercase shadow-sm">
           {card.format}
@@ -332,23 +332,23 @@ export function HeroSection({ onStartFree }: HeroSectionProps) {
     <section
       id="top"
       ref={sectionRef}
-      className="relative min-h-screen w-full bg-[#FAFCFB] overflow-hidden pt-28 sm:pt-36 pb-16 sm:pb-24 flex flex-col items-center justify-center"
+      className="relative min-h-screen w-full bg-[#FAFCFB] overflow-hidden pt-28 sm:pt-36 pb-20 sm:pb-28 flex flex-col items-center justify-center"
     >
       {/* ======================================================== */}
-      {/* GREEN 3D ORGANIC FLUID SHAPES & GLOWS (Matching 2nd Image) */}
+      {/* COMPLETE SEAMLESS GREEN 3D FLUID SHAPES & GLOWS */}
       {/* ======================================================== */}
 
       {/* Top-Right Emerald 3D Glass Composition */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-0 right-0 w-[550px] sm:w-[780px] h-[550px] sm:h-[780px] overflow-hidden select-none"
+        className="pointer-events-none absolute top-0 right-0 w-[550px] sm:w-[820px] h-[550px] sm:h-[820px] select-none"
       >
         {/* Soft emerald atmospheric radial glow */}
         <div
-          className="absolute -top-24 -right-20 w-[650px] h-[650px] rounded-full blur-[90px] opacity-90"
+          className="absolute -top-20 -right-16 w-[600px] h-[600px] rounded-full blur-[85px] opacity-85"
           style={{
             background:
-              'radial-gradient(circle at 68% 30%, rgba(0, 208, 132, 0.72) 0%, rgba(16, 185, 129, 0.45) 35%, rgba(5, 150, 105, 0.22) 65%, transparent 80%)',
+              'radial-gradient(circle at 70% 30%, rgba(0, 208, 132, 0.72) 0%, rgba(16, 185, 129, 0.42) 35%, rgba(5, 150, 105, 0.18) 65%, transparent 75%)',
           }}
         />
 
@@ -359,51 +359,93 @@ export function HeroSection({ onStartFree }: HeroSectionProps) {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Base smooth fluid body */}
+          {/* Main Organic Lobe */}
           <path
-            d="M540 100C600 210 560 370 450 450C340 530 190 510 120 410C50 310 70 150 170 70C270 -10 480 -10 540 100Z"
+            d="M510 90C570 190 540 330 440 400C340 470 210 450 150 360C90 270 110 140 190 70C270 0 450 -10 510 90Z"
             fill="url(#emerald-grad-1)"
-            className="filter blur-[42px] opacity-80"
+            className="filter blur-[36px] opacity-80"
           />
-          {/* Overlapping specular highlight curve */}
+          {/* Inner Glossy Glass Specular Lobe */}
           <path
-            d="M590 60C640 160 590 300 500 370C410 440 280 420 220 340C160 260 180 120 270 50C360 -20 540 -40 590 60Z"
+            d="M550 60C590 150 550 270 470 330C390 390 280 370 230 300C180 230 190 110 260 50C330 -10 510 -30 550 60Z"
             fill="url(#emerald-grad-2)"
-            className="filter blur-[20px] opacity-85"
+            className="filter blur-[18px] opacity-85"
           />
           <defs>
-            <linearGradient id="emerald-grad-1" x1="120" y1="40" x2="560" y2="520" gradientUnits="userSpaceOnUse">
+            <linearGradient id="emerald-grad-1" x1="150" y1="50" x2="520" y2="440" gradientUnits="userSpaceOnUse">
               <stop stopColor="#00D084" stopOpacity="0.85" />
               <stop offset="0.45" stopColor="#10B981" stopOpacity="0.65" />
-              <stop offset="1" stopColor="#047857" stopOpacity="0.3" />
+              <stop offset="1" stopColor="#047857" stopOpacity="0.25" />
             </linearGradient>
-            <linearGradient id="emerald-grad-2" x1="220" y1="-20" x2="600" y2="400" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#6EE7B7" stopOpacity="0.9" />
+            <linearGradient id="emerald-grad-2" x1="230" y1="-10" x2="560" y2="350" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#A7F3D0" stopOpacity="0.9" />
               <stop offset="0.35" stopColor="#00D084" stopOpacity="0.8" />
-              <stop offset="1" stopColor="#059669" stopOpacity="0.4" />
+              <stop offset="1" stopColor="#059669" stopOpacity="0.35" />
             </linearGradient>
           </defs>
         </svg>
 
-        {/* Subtle dot-matrix pattern on the right */}
-        <div className="absolute top-52 right-16 w-52 h-52 opacity-[0.24] bg-[radial-gradient(#059669_1.5px,transparent_1.5px)] [background-size:16px_16px]" />
-      </div>
-
-      {/* Middle/Bottom-Left Mint Translucent Organic Curve */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-10 -left-28 w-[420px] sm:w-[600px] h-[420px] sm:h-[600px] overflow-hidden select-none"
-      >
+        {/* Subtle dot-matrix pattern with radial fade mask */}
         <div
-          className="w-full h-full rounded-full blur-[85px] opacity-50"
+          className="absolute top-44 right-14 w-56 h-56 opacity-[0.22] bg-[radial-gradient(#059669_1.5px,transparent_1.5px)] [background-size:16px_16px]"
           style={{
-            background:
-              'radial-gradient(circle at 35% 65%, rgba(52, 211, 153, 0.48) 0%, rgba(16, 185, 129, 0.28) 42%, transparent 75%)',
+            maskImage: 'radial-gradient(circle at center, black 30%, transparent 72%)',
+            WebkitMaskImage: 'radial-gradient(circle at center, black 30%, transparent 72%)',
           }}
         />
-        {/* Subtle dot-matrix pattern on the left */}
-        <div className="absolute top-24 left-36 w-48 h-48 opacity-[0.2] bg-[radial-gradient(#10B981_1.5px,transparent_1.5px)] [background-size:16px_16px]" />
       </div>
+
+      {/* Middle-Left Fully Complete Organic Mint Glass Wave & Ambient Glow */}
+      {/* Placed vertically in the middle-left (matching reference image 2), safely above the bottom so it never cuts off */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-[16%] sm:top-[20%] -left-16 sm:-left-20 w-[450px] sm:w-[620px] h-[450px] sm:h-[620px] select-none"
+      >
+        {/* Soft mint atmospheric ambient radial glow */}
+        <div
+          className="absolute inset-4 rounded-full blur-[80px] opacity-65"
+          style={{
+            background:
+              'radial-gradient(circle at 45% 45%, rgba(0, 208, 132, 0.42) 0%, rgba(52, 211, 153, 0.28) 38%, rgba(16, 185, 129, 0.12) 58%, transparent 72%)',
+          }}
+        />
+
+        {/* 3D Organic Curved Glass Shape - Fully self-contained inside bounds */}
+        <svg
+          viewBox="0 0 600 600"
+          className="absolute inset-0 w-full h-full"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M 140,290 C 110,180 180,90 290,80 C 400,70 480,160 490,270 C 500,380 410,480 300,470 C 190,460 160,390 140,290 Z"
+            fill="url(#mint-grad-left)"
+            className="filter blur-[32px] opacity-75"
+          />
+          <defs>
+            <linearGradient id="mint-grad-left" x1="120" y1="460" x2="480" y2="90" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#6EE7B7" stopOpacity="0.85" />
+              <stop offset="0.45" stopColor="#34D399" stopOpacity="0.55" />
+              <stop offset="1" stopColor="#059669" stopOpacity="0.12" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {/* Dot-matrix with radial fade mask naturally dissolving into background */}
+        <div
+          className="absolute top-20 left-20 w-52 h-52 opacity-[0.24] bg-[radial-gradient(#10B981_1.5px,transparent_1.5px)] [background-size:16px_16px]"
+          style={{
+            maskImage: 'radial-gradient(circle at center, black 30%, transparent 72%)',
+            WebkitMaskImage: 'radial-gradient(circle at center, black 30%, transparent 72%)',
+          }}
+        />
+      </div>
+
+      {/* Smooth bottom transition blending into next section with zero harsh lines */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent via-[#FAFCFB]/90 to-white z-10"
+      />
 
       {/* Hero Content Container */}
       <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 w-full flex flex-col items-center text-center">
@@ -460,7 +502,7 @@ export function HeroSection({ onStartFree }: HeroSectionProps) {
 
         {/* Interactive 3D Tarot / Tinder Video Swipe Deck */}
         <div className="hero-reveal relative mt-12 sm:mt-14 w-[280px] sm:w-[310px] md:w-[330px] h-[415px] sm:h-[460px] md:h-[480px]">
-          {/* Luminous Emerald/Mint Glow Behind Deck (Matching 2nd Image) */}
+          {/* Luminous Emerald/Mint Glow Behind Deck */}
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -inset-8 rounded-[48px] blur-2xl opacity-75"
