@@ -178,51 +178,51 @@ export function VideoFormatShowcase({ onStartNow }: VideoFormatShowcaseProps) {
         </p>
       </div>
 
-      {/* 3D DriftWall Experience Container with White Gradient Falloff */}
-      <div className="relative w-full h-[680px] sm:h-[780px] lg:h-[840px] select-none">
+      {/* 3D DriftWall Experience Container with White Gradient Falloff - Enhanced Large Flagship Size */}
+      <div className="relative w-full h-[820px] sm:h-[920px] md:h-[980px] lg:h-[1050px] select-none">
         {/* White Gradient Fade Overlays */}
         {/* Top Vignette Fade */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-32 sm:h-44 bg-gradient-to-b from-[#FAFCFB] via-[#FAFCFB]/80 to-transparent z-20"
+          className="pointer-events-none absolute inset-x-0 top-0 h-36 sm:h-52 bg-gradient-to-b from-[#FAFCFB] via-[#FAFCFB]/85 to-transparent z-20"
         />
 
         {/* Bottom Vignette Fade */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-36 sm:h-48 bg-gradient-to-t from-[#FAFCFB] via-[#FAFCFB]/90 to-transparent z-20"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-40 sm:h-56 bg-gradient-to-t from-[#FAFCFB] via-[#FAFCFB]/90 to-transparent z-20"
         />
 
         {/* Left Vignette Fade */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 w-24 sm:w-56 lg:w-72 bg-gradient-to-r from-[#FAFCFB] via-[#FAFCFB]/80 to-transparent z-20"
+          className="pointer-events-none absolute inset-y-0 left-0 w-28 sm:w-64 lg:w-80 bg-gradient-to-r from-[#FAFCFB] via-[#FAFCFB]/85 to-transparent z-20"
         />
 
         {/* Right Vignette Fade */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-56 lg:w-72 bg-gradient-to-l from-[#FAFCFB] via-[#FAFCFB]/80 to-transparent z-20"
+          className="pointer-events-none absolute inset-y-0 right-0 w-28 sm:w-64 lg:w-80 bg-gradient-to-l from-[#FAFCFB] via-[#FAFCFB]/85 to-transparent z-20"
         />
 
-        {/* DriftWall 3D Perspective Grid */}
+        {/* DriftWall 3D Perspective Grid - Large 9:16 Flagship Mobile Video Cards */}
         <DriftWall
           items={DRIFT_ITEMS}
-          columns={7}
-          tileWidth={230}
-          tileHeight={408}
-          gap={20}
-          radius={20}
-          tilt={16}
-          turn={-14}
+          columns={6}
+          tileWidth={295}
+          tileHeight={525}
+          gap={26}
+          radius={26}
+          tilt={14}
+          turn={-12}
           roll={0}
-          perspective={1200}
-          depth={120}
-          speed={36}
+          perspective={1400}
+          depth={130}
+          speed={32}
           direction="up"
           variance={0.45}
           parallax={0.65}
-          lift={72}
+          lift={88}
           fade={0.55}
           dim={0.88}
           overlayColor="transparent"

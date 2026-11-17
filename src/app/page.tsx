@@ -7,6 +7,7 @@ import Lenis from 'lenis';
 import { Navbar } from '@/components/Navbar';
 import { HeroSection } from '@/components/HeroSection';
 import { VideoFormatShowcase } from '@/components/VideoFormatShowcase';
+import { HowItWorksSection } from '@/components/HowItWorksSection';
 import { StartModal } from '@/components/StartModal';
 
 export default function Home() {
@@ -54,6 +55,7 @@ export default function Home() {
       <main>
         <HeroSection onStartFree={() => setModalOpen(true)} />
         <VideoFormatShowcase onStartNow={() => setModalOpen(true)} />
+        <HowItWorksSection onStartNow={() => setModalOpen(true)} />
       </main>
       <StartModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </div>

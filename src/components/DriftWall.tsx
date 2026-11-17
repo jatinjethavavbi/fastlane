@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Sparkles, TrendingUp, Play } from 'lucide-react';
+import { Sparkles, TrendingUp } from 'lucide-react';
 import './DriftWall.css';
 
 export interface DriftWallItem {
@@ -61,24 +61,24 @@ const columnFactor = (index: number, variance: number) => {
 
 export default function DriftWall({
   items,
-  columns = 7,
-  tileWidth = 230,
-  tileHeight = 408,
-  gap = 20,
-  radius = 18,
-  tilt = 16,
-  turn = -14,
+  columns = 6,
+  tileWidth = 295,
+  tileHeight = 525,
+  gap = 26,
+  radius = 26,
+  tilt = 14,
+  turn = -12,
   roll = 0,
-  perspective = 1200,
-  depth = 120,
-  speed = 36,
+  perspective = 1400,
+  depth = 130,
+  speed = 32,
   direction = 'up',
   variance = 0.45,
-  parallax = 0.6,
+  parallax = 0.65,
   pauseOnHover = false,
-  lift = 72,
+  lift = 88,
   fade = 0.55,
-  dim = 0.85,
+  dim = 0.88,
   grayscale = false,
   overlayColor = 'transparent',
   className = '',
@@ -92,15 +92,15 @@ export default function DriftWall({
 
   const offsetsRef = useRef<number[]>([]);
   const velocitiesRef = useRef<number[]>([]);
-  const hoveredColRef = useRef<number>(-1);
   const wallHoveredRef = useRef<boolean>(false);
   const pointerRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const pointerDampedRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const lastTsRef = useRef<number | null>(null);
 
-  const [containerHeight, setContainerHeight] = useState<number>(750);
+  const [containerHeight, setContainerHeight] = useState<number>(950);
   const [activeId, setActiveId] = useState<string | null>(null);
   const activeIdRef = useRef<string | null>(null);
+  const releaseTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [reduced, setReduced] = useState<boolean>(false);
 
   useEffect(() => {
@@ -123,7 +123,7 @@ export default function DriftWall({
     const unit = tileHeight + gap;
     return columnItems.map((col) => {
       const copyHeight = Math.max(unit, col.length * unit);
-      const copies = Math.max(2, Math.ceil((containerHeight * 1.8) / copyHeight) + 1);
+      const copies = Math.max(2, Math.ceil((containerHeight * 1.9) / copyHeight) + 1);
       return { copyHeight, copies };
     });
   }, [columnItems, tileHeight, gap, containerHeight]);
@@ -131,7 +131,7 @@ export default function DriftWall({
   useLayoutEffect(() => {
     if (!containerRef.current) return;
     const ro = new ResizeObserver(([entry]) => {
-      setContainerHeight(entry.contentRect.height || 750);
+      setContainerHeight(entry.contentRect.height || 950);
     });
     ro.observe(containerRef.current);
     return () => ro.disconnect();
@@ -155,7 +155,7 @@ export default function DriftWall({
       const plane = planeRef.current;
       if (!plane) return;
       plane.style.transform =
-        `translate(-50%, -50%) scale(1.16) ` +
+        `translate(-50%, -50%) scale(1.15) ` +
         `rotateX(${tilt + py}deg) rotateY(${turn + px}deg) rotateZ(${roll}deg) ` +
         `translateZ(${-depth}px)`;
     },
@@ -168,24 +168,28 @@ export default function DriftWall({
       const dt = Math.min(0.05, Math.max(0, ts - lastTsRef.current) / 1000);
       lastTsRef.current = ts;
 
-      const maxTilt = parallax * 8;
+      // Smooth mouse parallax
+      const maxTilt = parallax * 7;
       const targetX = pointerRef.current.x * maxTilt;
       const targetY = -pointerRef.current.y * maxTilt;
-      const damp = 1 - Math.exp(-dt / 0.12);
+      const damp = 1 - Math.exp(-dt / 0.14);
       pointerDampedRef.current.x += (targetX - pointerDampedRef.current.x) * damp;
       pointerDampedRef.current.y += (targetY - pointerDampedRef.current.y) * damp;
       applyPlaneTransform(pointerDampedRef.current.x, pointerDampedRef.current.y);
 
+      // Smooth, jitter-free column drift
       if (!reduced) {
         for (let c = 0; c < trackRefs.current.length; c++) {
           const meta = columnMeta[c];
           if (!meta) continue;
-          const paused = wallHoveredRef.current && pauseOnHover;
-          const factor = paused || hoveredColRef.current === c ? 0 : 1;
-          const target = baseVelocities[c] * factor;
 
-          const ease = 1 - Math.exp(-dt / (target === 0 ? 0.16 : 0.28));
+          // If pauseOnHover is true, gently ease the entire wall without individual column stuttering
+          const isPaused = wallHoveredRef.current && pauseOnHover;
+          const target = isPaused ? 0 : baseVelocities[c];
+
+          const ease = 1 - Math.exp(-dt / (target === 0 ? 0.22 : 0.32));
           velocitiesRef.current[c] += (target - velocitiesRef.current[c]) * ease;
+
           let next = (offsetsRef.current[c] ?? 0) + velocitiesRef.current[c] * dt;
           next = ((next % meta.copyHeight) + meta.copyHeight) % meta.copyHeight;
           offsetsRef.current[c] = next;
@@ -212,16 +216,28 @@ export default function DriftWall({
     };
   }, [baseVelocities, columnMeta, pauseOnHover, parallax, reduced, applyPlaneTransform]);
 
-  const activate = useCallback((id: string, index: number) => {
-    activeIdRef.current = id;
-    hoveredColRef.current = index;
-    setActiveId(id);
+  // Robust, jitter-free activate with cancel on release timer
+  const activate = useCallback((id: string) => {
+    if (releaseTimerRef.current) {
+      clearTimeout(releaseTimerRef.current);
+      releaseTimerRef.current = null;
+    }
+    if (activeIdRef.current !== id) {
+      activeIdRef.current = id;
+      setActiveId(id);
+    }
   }, []);
 
+  // Hysteresis release buffer prevents subpixel boundary flickering
   const release = useCallback(() => {
-    activeIdRef.current = null;
-    hoveredColRef.current = -1;
-    setActiveId(null);
+    if (releaseTimerRef.current) {
+      clearTimeout(releaseTimerRef.current);
+    }
+    releaseTimerRef.current = setTimeout(() => {
+      activeIdRef.current = null;
+      setActiveId(null);
+      releaseTimerRef.current = null;
+    }, 90);
   }, []);
 
   const handlePointerMove = useCallback(
@@ -234,19 +250,8 @@ export default function DriftWall({
           y: (e.clientY - rect.top) / rect.height - 0.5,
         };
       }
-      const hit = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
-      const tile = hit && hit.closest ? (hit.closest('[data-tile-id]') as HTMLElement | null) : null;
-      if (!tile) {
-        if (activeIdRef.current) release();
-        return;
-      }
-      const id = tile.dataset.tileId;
-      if (!id || id === activeIdRef.current) return;
-      activeIdRef.current = id;
-      hoveredColRef.current = Number(tile.dataset.col);
-      setActiveId(id);
     },
-    [parallax, reduced, release]
+    [parallax, reduced]
   );
 
   const handlePointerLeaveWall = useCallback(() => {
@@ -302,30 +307,30 @@ export default function DriftWall({
             />
           )}
 
-          {/* Top Glass Badge Row */}
-          <span className="pointer-events-none absolute top-3 inset-x-3 flex items-center justify-between z-10">
+          {/* Top Glass Badge Row: Scaled up for crystal readability */}
+          <span className="pointer-events-none absolute top-4 inset-x-4 flex items-center justify-between z-10">
             {item.format && (
-              <span className="px-2.5 py-1 rounded-full bg-black/65 backdrop-blur-md text-[10px] font-bold tracking-wider uppercase text-white shadow-sm border border-white/15">
+              <span className="px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md text-[11px] font-bold tracking-wider uppercase text-white shadow-md border border-white/20">
                 {item.format}
               </span>
             )}
             {item.metric && (
-              <span className="px-2 py-0.5 rounded-full bg-[#00D084]/90 backdrop-blur-md text-[9px] font-extrabold text-neutral-950 flex items-center gap-1 shadow-sm">
-                <TrendingUp className="w-2.5 h-2.5" />
+              <span className="px-2.5 py-1 rounded-full bg-[#00D084] backdrop-blur-md text-[10px] font-black text-neutral-950 flex items-center gap-1 shadow-md">
+                <TrendingUp className="w-3 h-3 stroke-[2.5]" />
                 {item.metric}
               </span>
             )}
           </span>
 
-          {/* Dynamic TikTok-style Caption Bubble at Bottom */}
+          {/* Dynamic TikTok-style Caption Bubble at Bottom: Sized up for large view */}
           {item.caption && (
-            <span className="pointer-events-none absolute bottom-3 inset-x-3 z-10 flex flex-col gap-1.5">
-              <span className="inline-block bg-black/75 backdrop-blur-md text-white text-[11px] font-medium leading-tight rounded-xl px-2.5 py-1.5 shadow-lg border border-white/10 line-clamp-2">
+            <span className="pointer-events-none absolute bottom-4 inset-x-4 z-10 flex flex-col gap-2">
+              <span className="inline-block bg-black/80 backdrop-blur-md text-white text-[13px] font-medium leading-snug rounded-2xl px-3.5 py-2.5 shadow-xl border border-white/15 line-clamp-2">
                 &ldquo;{item.caption}&rdquo;
               </span>
               {item.brand && (
-                <span className="text-[10px] font-semibold text-white/90 drop-shadow-md flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#00D084]" />
+                <span className="text-[11px] font-bold text-white/95 drop-shadow-md flex items-center gap-1.5 pl-1">
+                  <span className="w-2 h-2 rounded-full bg-[#00D084] shadow-[0_0_8px_#00D084]" />
                   {item.brand}
                 </span>
               )}
@@ -341,8 +346,10 @@ export default function DriftWall({
       className: `drift-wall__tile${isActive ? ' is-active' : ''}`,
       'data-tile-id': id,
       'data-col': colIndex,
-      onFocus: () => activate(id, colIndex),
-      onBlur: release,
+      onPointerEnter: () => activate(id),
+      onPointerLeave: () => release(),
+      onFocus: () => activate(id),
+      onBlur: () => release(),
       onClick: () => onTileClick?.(item),
     };
 
@@ -401,4 +408,3 @@ export default function DriftWall({
     </div>
   );
 }
-
