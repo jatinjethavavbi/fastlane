@@ -1,0 +1,6 @@
+{
+  "name": "Velox — Creative Intelligence & Ad Diversity Platform",
+  "description": "Automated brand research, competitor creative mapping, and high-volume multi-format ad production for modern performance teams.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
