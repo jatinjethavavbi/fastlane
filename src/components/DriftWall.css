@@ -155,6 +155,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .drift-wall__plane,
   .drift-wall__track {
     will-change: auto;

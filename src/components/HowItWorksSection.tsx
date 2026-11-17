@@ -470,3 +470,4 @@ export function HowItWorksSection({ onStartNow }: HowItWorksSectionProps) {
     </section>
   );
 }
+

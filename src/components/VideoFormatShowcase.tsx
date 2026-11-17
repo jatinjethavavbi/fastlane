@@ -149,6 +149,46 @@ const DRIFT_ITEMS: DriftWallItem[] = [
     poster: '/images/ad_audio_hardware_1794908395903.jpg',
     caption: 'Full-grain vegetable-tanned leather patina after 180 days of carry',
   },
+  {
+    id: 'drift-15',
+    title: 'Long-Haul Flight Stress Test',
+    format: 'LONG-HAUL UGC',
+    metric: '4.9x ROAS',
+    brand: 'Aerofloat Sleep',
+    videoSrc: '/videos/neck_pillow_2.mp4',
+    poster: '/images/ad_creator_lifestyle_1794908396875.jpg',
+    caption: '14 hours from Tokyo to JFK with zero neck soreness or stiffness',
+  },
+  {
+    id: 'drift-16',
+    title: 'Morning Cafe Budget Swap',
+    format: 'FOUNDER HOOK 2',
+    metric: '5.0x ROAS',
+    brand: 'Solstice Roasters',
+    videoSrc: '/videos/coffee_brewing.mp4',
+    poster: '/images/case_study_roastery_1794908397891.jpg',
+    caption: 'How 1 bag of artisan roast saved $210/month on morning cafe runs',
+  },
+  {
+    id: 'drift-17',
+    title: 'Marathon Plate Durability',
+    format: 'MARATHON LAB',
+    metric: '5.3x ROAS',
+    brand: 'Velocity Athletic',
+    videoSrc: '/videos/running_shoe.mp4',
+    poster: '/images/ad_athletic_runner_1794908396789.jpg',
+    caption: 'Mile 350 carbon snap test: still returning 88% kinetic energy',
+  },
+  {
+    id: 'drift-18',
+    title: 'Dropper Oxidation Teardown',
+    format: 'DERM SCIENCE',
+    metric: '4.6x ROAS',
+    brand: 'Aura Botanicals',
+    videoSrc: '/videos/face_serum.mp4',
+    poster: '/images/ad_skincare_editorial_1794908395716.jpg',
+    caption: 'Board-certified dermatologist tests active stabilization on sensitive skin',
+  },
 ];
 
 export function VideoFormatShowcase({ onStartNow }: VideoFormatShowcaseProps) {
@@ -218,7 +258,7 @@ export function VideoFormatShowcase({ onStartNow }: VideoFormatShowcaseProps) {
           roll={0}
           perspective={1400}
           depth={130}
-          speed={32}
+          speed={68}
           direction="up"
           variance={0.45}
           parallax={0.65}

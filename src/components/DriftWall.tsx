@@ -59,6 +59,72 @@ const columnFactor = (index: number, variance: number) => {
   return 1 + variance * pseudo;
 };
 
+// Dedicated Autoplaying Video Component with Guaranteed DOM Muting
+function DriftVideo({
+  src,
+  poster,
+  className,
+}: {
+  src: string;
+  poster?: string;
+  className?: string;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Direct DOM property assignment required by Chrome & Edge autoplay policies
+    video.defaultMuted = true;
+    video.muted = true;
+    video.playsInline = true;
+
+    const playVideo = () => {
+      const p = video.play();
+      if (p !== undefined) {
+        p.catch(() => {
+          // Retry on first user gesture anywhere on window
+          const handleGesture = () => {
+            video.play().catch(() => {});
+            window.removeEventListener('pointerdown', handleGesture);
+            window.removeEventListener('scroll', handleGesture);
+            window.removeEventListener('touchstart', handleGesture);
+          };
+          window.addEventListener('pointerdown', handleGesture, { once: true });
+          window.addEventListener('scroll', handleGesture, { once: true });
+          window.addEventListener('touchstart', handleGesture, { once: true });
+        });
+      }
+    };
+
+    playVideo();
+
+    const onVisibilityChange = () => {
+      if (!document.hidden) playVideo();
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    };
+  }, [src]);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      poster={poster}
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="auto"
+      className={className}
+    />
+  );
+}
+
 export default function DriftWall({
   items,
   columns = 6,
@@ -71,7 +137,7 @@ export default function DriftWall({
   roll = 0,
   perspective = 1400,
   depth = 130,
-  speed = 32,
+  speed = 68,
   direction = 'up',
   variance = 0.45,
   parallax = 0.65,
@@ -123,10 +189,11 @@ export default function DriftWall({
     const unit = tileHeight + gap;
     return columnItems.map((col) => {
       const copyHeight = Math.max(unit, col.length * unit);
-      const copies = Math.max(2, Math.ceil((containerHeight * 1.9) / copyHeight) + 1);
+      // Exactly 2 copies is optimal for looping without overwhelming browser hardware decoders
+      const copies = 2;
       return { copyHeight, copies };
     });
-  }, [columnItems, tileHeight, gap, containerHeight]);
+  }, [columnItems, tileHeight, gap]);
 
   useLayoutEffect(() => {
     if (!containerRef.current) return;
@@ -146,9 +213,9 @@ export default function DriftWall({
   }, [columnItems, speed, direction, variance]);
 
   useEffect(() => {
-    offsetsRef.current = columnMeta.map((meta, c) => meta.copyHeight * ((c * 0.37) % 1));
-    velocitiesRef.current = columnItems.map(() => 0);
-  }, [columnMeta, columnItems]);
+    offsetsRef.current = columnMeta.map((meta, c) => (meta.copyHeight * (c * 0.33)) % meta.copyHeight);
+    velocitiesRef.current = columnItems.map((_, c) => baseVelocities[c] || speed);
+  }, [columnMeta, columnItems, baseVelocities, speed]);
 
   const applyPlaneTransform = useCallback(
     (px: number, py: number) => {
@@ -165,7 +232,7 @@ export default function DriftWall({
   useEffect(() => {
     const animate = (ts: number) => {
       if (lastTsRef.current === null) lastTsRef.current = ts;
-      const dt = Math.min(0.05, Math.max(0, ts - lastTsRef.current) / 1000);
+      const dt = Math.min(0.05, Math.max(0.001, (ts - lastTsRef.current) / 1000));
       lastTsRef.current = ts;
 
       // Smooth mouse parallax
@@ -177,31 +244,26 @@ export default function DriftWall({
       pointerDampedRef.current.y += (targetY - pointerDampedRef.current.y) * damp;
       applyPlaneTransform(pointerDampedRef.current.x, pointerDampedRef.current.y);
 
-      // Smooth, jitter-free column drift
+      // Continuous, fluid slider drift across all columns
       if (!reduced) {
-        for (let c = 0; c < trackRefs.current.length; c++) {
+        for (let c = 0; c < columnItems.length; c++) {
           const meta = columnMeta[c];
           if (!meta) continue;
 
-          // If pauseOnHover is true, gently ease the entire wall without individual column stuttering
           const isPaused = wallHoveredRef.current && pauseOnHover;
           const target = isPaused ? 0 : baseVelocities[c];
 
-          const ease = 1 - Math.exp(-dt / (target === 0 ? 0.22 : 0.32));
-          velocitiesRef.current[c] += (target - velocitiesRef.current[c]) * ease;
+          const ease = 1 - Math.exp(-dt / 0.28);
+          velocitiesRef.current[c] = (velocitiesRef.current[c] ?? baseVelocities[c]) + (target - (velocitiesRef.current[c] ?? baseVelocities[c])) * ease;
 
           let next = (offsetsRef.current[c] ?? 0) + velocitiesRef.current[c] * dt;
           next = ((next % meta.copyHeight) + meta.copyHeight) % meta.copyHeight;
           offsetsRef.current[c] = next;
 
           const el = trackRefs.current[c];
-          if (el) el.style.transform = `translate3d(0, ${-next}px, 0)`;
-        }
-      } else {
-        for (let c = 0; c < trackRefs.current.length; c++) {
-          const el = trackRefs.current[c];
-          const meta = columnMeta[c];
-          if (el && meta) el.style.transform = `translate3d(0, ${-(offsetsRef.current[c] ?? 0)}px, 0)`;
+          if (el) {
+            el.style.transform = `translate3d(0, ${-next}px, 0)`;
+          }
         }
       }
 
@@ -214,9 +276,8 @@ export default function DriftWall({
       rafRef.current = null;
       lastTsRef.current = null;
     };
-  }, [baseVelocities, columnMeta, pauseOnHover, parallax, reduced, applyPlaneTransform]);
+  }, [baseVelocities, columnMeta, columnItems, pauseOnHover, parallax, reduced, applyPlaneTransform]);
 
-  // Robust, jitter-free activate with cancel on release timer
   const activate = useCallback((id: string) => {
     if (releaseTimerRef.current) {
       clearTimeout(releaseTimerRef.current);
@@ -228,7 +289,6 @@ export default function DriftWall({
     }
   }, []);
 
-  // Hysteresis release buffer prevents subpixel boundary flickering
   const release = useCallback(() => {
     if (releaseTimerRef.current) {
       clearTimeout(releaseTimerRef.current);
@@ -286,14 +346,9 @@ export default function DriftWall({
       <span className="drift-wall__inner">
         <span className="drift-wall__media-wrap">
           {mediaSrc ? (
-            <video
+            <DriftVideo
               src={mediaSrc}
               poster={item.poster || item.image}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
               className="drift-wall__media"
             />
           ) : (
@@ -322,7 +377,7 @@ export default function DriftWall({
             )}
           </span>
 
-          {/* Dynamic TikTok-style Caption Bubble at Bottom: Sized up for large view */}
+          {/* Dynamic TikTok-style Caption Bubble at Bottom */}
           {item.caption && (
             <span className="pointer-events-none absolute bottom-4 inset-x-4 z-10 flex flex-col gap-2">
               <span className="inline-block bg-black/80 backdrop-blur-md text-white text-[13px] font-medium leading-snug rounded-2xl px-3.5 py-2.5 shadow-xl border border-white/15 line-clamp-2">
