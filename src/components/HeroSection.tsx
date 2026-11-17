@@ -9,7 +9,7 @@ import {
   useTransform,
   type PanInfo,
 } from 'motion/react';
-import { ArrowRight, RotateCcw, Heart, X, Sparkles } from 'lucide-react';
+import { ArrowRight, RotateCcw, Heart, X, Sparkles, Volume2, VolumeX } from 'lucide-react';
 
 interface HeroSectionProps {
   onStartFree: () => void;
@@ -20,7 +20,8 @@ interface DeckCardItem {
   brand: string;
   format: string;
   metric: string;
-  image: string;
+  videoSrc: string;
+  poster: string;
   alt: string;
   caption: string;
   rot: number;
@@ -33,7 +34,8 @@ const INITIAL_DECK: DeckCardItem[] = [
     brand: 'SOLSTICE ROASTERS',
     format: 'FOUNDER KITCHEN HOOK',
     metric: '4.8x ROAS · TikTok Spark',
-    image: '/images/case_study_roastery_1794908397891.jpg',
+    videoSrc: '/videos/coffee_brewing.mp4',
+    poster: '/images/case_study_roastery_1794908397891.jpg',
     alt: 'Founder holding matte ceramic coffee carafe in morning sun',
     caption: 'The 90-second pour-over swap that replaced our morning $7 cafe spend',
     rot: 0,
@@ -44,7 +46,8 @@ const INITIAL_DECK: DeckCardItem[] = [
     brand: 'AURA BOTANICALS',
     format: 'EDITORIAL PRODUCT STILL',
     metric: '4.2x ROAS · Meta Feed',
-    image: '/images/ad_skincare_editorial_1794908395716.jpg',
+    videoSrc: '/videos/face_serum.mp4',
+    poster: '/images/ad_skincare_editorial_1794908395716.jpg',
     alt: 'Amber skincare serum bottle on natural stone pedestal in sunlight',
     caption: 'Why vitamin C oxidizes in clear dropper bottles before it reaches your skin',
     rot: -5,
@@ -55,7 +58,8 @@ const INITIAL_DECK: DeckCardItem[] = [
     brand: 'KESTREL ACOUSTICS',
     format: '3D HARDWARE SPEC SPLIT',
     metric: '3.9x ROAS · YouTube Shorts',
-    image: '/images/ad_audio_hardware_1794908395903.jpg',
+    videoSrc: '/videos/headphones_unboxing.mp4',
+    poster: '/images/ad_audio_hardware_1794908395903.jpg',
     alt: 'Charcoal wireless headphones on brushed aluminum surface',
     caption: '42dB active isolation measured on commuter rail transit',
     rot: 6,
@@ -66,7 +70,8 @@ const INITIAL_DECK: DeckCardItem[] = [
     brand: 'VELOCITY ATHLETIC',
     format: 'CARBON PLATE FLEX TEST',
     metric: '5.1x ROAS · Instagram Reels',
-    image: '/images/ad_athletic_runner_1794908396789.jpg',
+    videoSrc: '/videos/running_shoe.mp4',
+    poster: '/images/ad_athletic_runner_1794908396789.jpg',
     alt: 'Runner lacing minimalist performance running shoes at dawn',
     caption: '198 grams on wet asphalt — zero heel slip through mile 400',
     rot: -4,
@@ -77,11 +82,24 @@ const INITIAL_DECK: DeckCardItem[] = [
     brand: 'LUMINA EYEWEAR',
     format: 'UGC STREET CREATOR HOOK',
     metric: '4.4x ROAS · TikTok Feed',
-    image: '/images/ad_creator_lifestyle_1794908396875.jpg',
+    videoSrc: '/videos/sunglasses_1.mp4',
+    poster: '/images/ad_creator_lifestyle_1794908396875.jpg',
     alt: 'Creator holding sunglasses by kitchen window',
     caption: 'I swapped my $250 designer sunglasses for these and nobody noticed',
     rot: 4,
     yOffset: -20,
+  },
+  {
+    id: 'deck-6',
+    brand: 'STEAMER PRO',
+    format: 'PROBLEM / SOLUTION SPLIT',
+    metric: '5.2x ROAS · TikTok Spark',
+    videoSrc: '/videos/steamer_1.mp4',
+    poster: '/images/ad_skincare_editorial_1794908395716.jpg',
+    alt: 'Instant garment crease eraser in 3 seconds',
+    caption: 'Watch 3-day suitcase wrinkles vanish in one smooth pass',
+    rot: -3,
+    yOffset: -24,
   },
 ];
 
@@ -102,6 +120,15 @@ interface TarotCardProps {
 
 function TarotCard({ card, isTop, stackIndex, onSwipe }: TarotCardProps) {
   const x = useMotionValue(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => {});
+    }
+  }, [isTop]);
 
   // Dynamic 3D rotation based on drag offset (Tarot 3D physics)
   const rotateZ = useTransform(x, [-260, 0, 260], [-18 + card.rot, card.rot, 18 + card.rot]);
@@ -139,11 +166,15 @@ function TarotCard({ card, isTop, stackIndex, onSwipe }: TarotCardProps) {
         }}
         className="absolute inset-0 rounded-[24px] overflow-hidden bg-neutral-900 border border-black/15 shadow-xl pointer-events-none select-none"
       >
-        <img
-          src={card.image}
-          alt={card.alt}
-          referrerPolicy="no-referrer"
-          className="w-full h-full object-cover brightness-[0.8]"
+        <video
+          src={card.videoSrc}
+          poster={card.poster}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className="w-full h-full object-cover pointer-events-none brightness-[0.75]"
         />
         <div className="absolute inset-0 bg-black/35" />
       </motion.div>
@@ -175,13 +206,19 @@ function TarotCard({ card, isTop, stackIndex, onSwipe }: TarotCardProps) {
       transition={{ type: 'spring', stiffness: 350, damping: 28 }}
       className="absolute inset-0 rounded-[24px] overflow-hidden bg-neutral-900 border-2 border-emerald-400/30 shadow-[0_28px_60px_-12px_rgba(0,0,0,0.45),0_0_25px_rgba(0,208,132,0.25)] cursor-grab active:cursor-grabbing select-none touch-pan-y"
     >
-      <img
-        src={card.image}
-        alt={card.alt}
-        draggable={false}
-        referrerPolicy="no-referrer"
+      {/* Real Playing Video Card */}
+      <video
+        ref={videoRef}
+        src={card.videoSrc}
+        poster={card.poster}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
         className="w-full h-full object-cover pointer-events-none"
       />
+
       {/* Vignette Gradients */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/30 pointer-events-none" />
 
@@ -421,7 +458,7 @@ export function HeroSection({ onStartFree }: HeroSectionProps) {
           </div>
         </div>
 
-        {/* Interactive 3D Tarot / Tinder Swipe Deck */}
+        {/* Interactive 3D Tarot / Tinder Video Swipe Deck */}
         <div className="hero-reveal relative mt-12 sm:mt-14 w-[280px] sm:w-[310px] md:w-[330px] h-[415px] sm:h-[460px] md:h-[480px]">
           {/* Luminous Emerald/Mint Glow Behind Deck (Matching 2nd Image) */}
           <div
