@@ -99,6 +99,34 @@
   animation: luxury-shimmer 6s ease-in-out infinite;
 }
 
+@keyframes marquee-scroll-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes marquee-scroll-down {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-feed-up {
+  animation: marquee-scroll-up var(--feed-duration, 22s) linear infinite;
+  will-change: transform;
+}
+
+.animate-feed-down {
+  animation: marquee-scroll-down var(--feed-duration, 30s) linear infinite;
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
 
   *,
