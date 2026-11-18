@@ -83,12 +83,11 @@ const ARC_CARDS: AdArcCard[] = [
 ];
 
 const AVATAR_IMAGES = [
-  '/images/fastlane_ugc_creator_1794909100006.jpg',
-  '/images/fastlane_studio_unboxing_1794909102381.jpg',
   '/images/ad_creator_lifestyle_1794908396875.jpg',
   '/images/ad_athletic_runner_1794908396789.jpg',
-  '/images/fastlane_app_demo_1794909100788.jpg',
   '/images/ad_skincare_editorial_1794908395716.jpg',
+  '/images/ad_audio_hardware_1794908395903.jpg',
+  '/images/case_study_roastery_1794908397891.jpg',
 ];
 
 const X_FACTORS = [0, 1.25, 2.38, 3.32, 4.05];
@@ -424,7 +423,7 @@ export function HeroSection({ onStartFree }: HeroSectionProps) {
 
   return (
     <section
-      id="top"
+      id="home"
       ref={sectionRef}
       className="relative min-h-screen w-full bg-white overflow-hidden pt-[110px] sm:pt-[120px] pb-10 sm:pb-14 flex flex-col items-center justify-between"
     >

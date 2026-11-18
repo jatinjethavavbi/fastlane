@@ -193,7 +193,10 @@ const DRIFT_ITEMS: DriftWallItem[] = [
 
 export function VideoFormatShowcase({ onStartNow }: VideoFormatShowcaseProps) {
   return (
-    <section className="relative w-full bg-[#FAFCFB] pt-20 sm:pt-28 pb-24 overflow-hidden flex flex-col items-center">
+    <section
+      id="create"
+      className="relative w-full bg-[#FAFCFB] pt-20 sm:pt-28 pb-24 overflow-hidden flex flex-col items-center"
+    >
       {/* Header text container */}
       <div className="relative z-30 max-w-4xl mx-auto px-4 sm:px-6 text-center mb-10 sm:mb-14">
         {/* Subtle pill badge */}

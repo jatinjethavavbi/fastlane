@@ -9,7 +9,10 @@ import { HeroSection } from '@/components/HeroSection';
 import { MaisonShowcase } from '@/components/MaisonShowcase';
 import { VideoFormatShowcase } from '@/components/VideoFormatShowcase';
 import { HowItWorksSection } from '@/components/HowItWorksSection';
+import { PricingSection } from '@/components/PricingSection';
+import { ContactSection } from '@/components/ContactSection';
 import { StartModal } from '@/components/StartModal';
+import { SpotlightNav } from '@/components/SpotlightNav';
 
 export default function Home() {
   const lenisRef = useRef<Lenis | null>(null);
@@ -53,13 +56,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white text-[#0B0B0E]">
       <Navbar onStartNow={() => setModalOpen(true)} />
-      <main>
+      <main className="pb-[calc(88px+env(safe-area-inset-bottom,0px))] md:pb-0">
         <HeroSection onStartFree={() => setModalOpen(true)} />
         <MaisonShowcase />
         <VideoFormatShowcase onStartNow={() => setModalOpen(true)} />
         <HowItWorksSection onStartNow={() => setModalOpen(true)} />
+        <PricingSection onStartNow={() => setModalOpen(true)} />
+        <ContactSection onStartNow={() => setModalOpen(true)} />
       </main>
       <StartModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <SpotlightNav />
     </div>
   );
 }

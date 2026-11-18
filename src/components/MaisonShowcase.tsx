@@ -349,6 +349,7 @@ export function MaisonShowcase() {
 
   return (
     <section
+      id="showcase"
       ref={sectionRef}
       onMouseMove={handleMouseMoveSection}
       onMouseLeave={handleMouseLeaveSection}

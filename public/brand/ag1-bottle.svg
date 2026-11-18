@@ -1,0 +1,10 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 280' width='240' height='280'>
+  <rect width='240' height='280' rx='20' fill='#F6F9F7'/>
+  <rect x='12' y='12' width='216' height='256' rx='16' fill='#FFFFFF' stroke='rgba(11,107,74,0.1)' stroke-width='1.5'/>
+  <rect x='80' y='36' width='80' height='146' rx='18' fill='#FFFFFF' stroke='#0B6B4A' stroke-width='3.5'/>
+  <rect x='92' y='28' width='56' height='16' rx='5' fill='#0B6B4A'/>
+  <text x='120' y='122' font-family='system-ui, sans-serif' font-size='26' font-weight='900' fill='#0B6B4A' text-anchor='middle'>AG1</text>
+  <rect x='94' y='140' width='52' height='30' rx='4' fill='#DCF1E6'/>
+  <text x='120' y='220' font-family='system-ui, sans-serif' font-size='14' font-weight='700' fill='#0B6B4A' text-anchor='middle'>AG1 BOTTLE</text>
+  <text x='120' y='240' font-family='system-ui, sans-serif' font-size='11' fill='#44544D' text-anchor='middle'>BPA-Free Shaker Bottle</text>
+</svg>
