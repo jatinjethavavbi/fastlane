@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { Navbar } from '@/components/Navbar';
 import { HeroSection } from '@/components/HeroSection';
+import { MaisonShowcase } from '@/components/MaisonShowcase';
 import { VideoFormatShowcase } from '@/components/VideoFormatShowcase';
 import { HowItWorksSection } from '@/components/HowItWorksSection';
 import { StartModal } from '@/components/StartModal';
@@ -54,6 +55,7 @@ export default function Home() {
       <Navbar onStartNow={() => setModalOpen(true)} />
       <main>
         <HeroSection onStartFree={() => setModalOpen(true)} />
+        <MaisonShowcase />
         <VideoFormatShowcase onStartNow={() => setModalOpen(true)} />
         <HowItWorksSection onStartNow={() => setModalOpen(true)} />
       </main>
