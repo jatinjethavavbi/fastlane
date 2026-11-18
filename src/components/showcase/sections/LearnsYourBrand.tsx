@@ -83,60 +83,60 @@ export function LearnsYourBrand({ isActive = true }: SectionProps) {
   return (
     <div className="w-full text-[#0b0f0d] select-none py-1">
       {/* ================================================================= */}
-      {/* TWO-COLUMN GRID: Left Column A, Right Column B (gap 40px)        */}
+      {/* TWO-COLUMN GRID: Column A & Column B (gap 32-40px)                */}
       {/* ================================================================= */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-start">
         {/* =============================================================== */}
         {/* COLUMN A: Header, Description, URL Scan Bar, Tone Vectors        */}
         {/* =============================================================== */}
-        <div className="flex flex-col gap-4 sm:gap-5">
+        <div className="flex flex-col gap-2.5 sm:gap-3">
           {/* 01 Label + Gold hairline */}
           <motion.div
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: EASE_OUT_CUBIC }}
-            className="flex items-center gap-3"
+            className="flex items-center gap-2.5"
           >
             <span className="font-mono text-[11px] uppercase font-bold tracking-[0.2em] text-[#0B6B4A]">
               01
             </span>
-            <div className="w-10 h-[1px] bg-[#B79B5E]" />
+            <div className="w-8 h-[1px] bg-[#B79B5E]" />
           </motion.div>
 
-          {/* Title: clamp(34px, 3.8vw, 56px), line-height 1.04 */}
+          {/* Title: clamp(32px, 3.4vw, 50px), line-height 1.04 */}
           <motion.h2
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.08, ease: EASE_OUT_CUBIC }}
-            className="font-instrument text-[clamp(34px,3.8vw,56px)] leading-[1.04] font-normal tracking-tight text-[#0b0f0d]"
+            transition={{ duration: 0.55, delay: 0.06, ease: EASE_OUT_CUBIC }}
+            className="font-instrument text-[clamp(32px,3.4vw,50px)] leading-[1.04] font-normal tracking-tight text-[#0b0f0d]"
           >
             Learns <em className="italic font-normal text-[#0B6B4A]">your brand</em>
           </motion.h2>
 
-          {/* Description: 15px, line-height 1.55, max-width 420px, muted */}
+          {/* Description: 15px, line-height 1.5, max-width 420px, muted */}
           <motion.p
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15, ease: EASE_OUT_CUBIC }}
-            className="font-sans text-[15px] leading-[1.55] text-[#44544d] max-w-[420px]"
+            transition={{ duration: 0.5, delay: 0.12, ease: EASE_OUT_CUBIC }}
+            className="font-sans text-[14px] sm:text-[15px] leading-[1.5] text-[#44544d] max-w-[420px]"
           >
             Give Senna a URL. It pulls your product, palette and tone of voice, then
             scans every ad you have ever run and tells you what is actually working.
           </motion.p>
 
-          {/* URL Scanner Bar: Height 44px, Text 13px */}
+          {/* URL Scanner Bar: Height 40px, Text 13px */}
           <motion.div
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.22, ease: EASE_OUT_CUBIC }}
-            className="relative w-full max-w-[420px] h-[44px] rounded-full bg-white border border-[rgba(11,107,74,0.14)] shadow-[0_8px_24px_rgba(11,107,74,0.06)] px-3 flex items-center justify-between overflow-hidden"
+            transition={{ duration: 0.5, delay: 0.18, ease: EASE_OUT_CUBIC }}
+            className="relative w-full max-w-[400px] h-[40px] rounded-full bg-white border border-[rgba(11,107,74,0.14)] shadow-[0_4px_16px_rgba(11,107,74,0.05)] px-3 flex items-center justify-between overflow-hidden"
           >
             {/* Left Badge: SENNA */}
-            <div className="flex items-center gap-2.5">
-              <span className="px-2 py-0.5 rounded-full bg-[#0b0f0d] text-white font-mono text-[10px] font-bold tracking-widest uppercase">
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded-full bg-[#0b0f0d] text-white font-mono text-[9px] font-bold tracking-widest uppercase">
                 SENNA
               </span>
-              <div className="flex items-center font-mono text-[13px] text-[#0b0f0d] font-medium tracking-wide">
+              <div className="flex items-center font-mono text-[12px] sm:text-[13px] text-[#0b0f0d] font-medium tracking-wide">
                 <span>{typedText}</span>
                 <span className="inline-block w-[1.5px] h-3.5 bg-[#0B6B4A] ml-0.5 animate-pulse" />
               </div>
@@ -145,7 +145,7 @@ export function LearnsYourBrand({ isActive = true }: SectionProps) {
             {/* Right Status: LIVE */}
             <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200/50">
               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-mono text-[9px] font-bold text-emerald-800 tracking-wider uppercase">
+              <span className="font-mono text-[8px] font-bold text-emerald-800 tracking-wider uppercase">
                 LIVE
               </span>
             </div>
@@ -154,7 +154,7 @@ export function LearnsYourBrand({ isActive = true }: SectionProps) {
             {!shouldReduceMotion && (
               <motion.div
                 className="absolute inset-y-0 w-16 bg-gradient-to-r from-transparent via-emerald-400/20 to-transparent pointer-events-none"
-                animate={{ x: [-80, 440] }}
+                animate={{ x: [-80, 420] }}
                 transition={{
                   repeat: Infinity,
                   duration: 2.8,
@@ -165,20 +165,20 @@ export function LearnsYourBrand({ isActive = true }: SectionProps) {
             )}
           </motion.div>
 
-          {/* Tone Words: Instrument Serif 22px in ONE row, with thin dividers */}
+          {/* Tone Words: Instrument Serif 20-22px in ONE row */}
           <motion.div
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.28, ease: EASE_OUT_CUBIC }}
-            className="pt-2"
+            transition={{ duration: 0.5, delay: 0.24, ease: EASE_OUT_CUBIC }}
+            className="pt-1"
           >
-            <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-[#44544d] font-bold mb-2">
+            <span className="block font-mono text-[9px] uppercase tracking-[0.2em] text-[#44544d] font-bold mb-1">
               TONE OF VOICE VECTORS
             </span>
-            <div className="flex items-center flex-wrap gap-2 text-[#0b0f0d]">
+            <div className="flex items-center flex-wrap gap-1.5 text-[#0b0f0d]">
               {toneWords.map((word, i) => (
                 <React.Fragment key={word}>
-                  <span className="font-instrument text-[21px] sm:text-[22px] font-normal tracking-tight">
+                  <span className="font-instrument text-[19px] sm:text-[21px] font-normal tracking-tight">
                     {word}
                   </span>
                   {i < toneWords.length - 1 && (
@@ -193,21 +193,21 @@ export function LearnsYourBrand({ isActive = true }: SectionProps) {
         {/* =============================================================== */}
         {/* COLUMN B: Product Fan, Palette Ribbon, Stats Row                */}
         {/* =============================================================== */}
-        <div className="flex flex-col gap-4 sm:gap-5 justify-between">
-          {/* Catalog Extracted Fan */}
+        <div className="flex flex-col gap-2.5 sm:gap-3 justify-between">
+          {/* Catalog Extracted Fan: Widened cards 100px x 124px */}
           <motion.div
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.2, ease: EASE_OUT_CUBIC }}
+            transition={{ duration: 0.55, delay: 0.16, ease: EASE_OUT_CUBIC }}
           >
-            <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-[#44544d] font-bold mb-2">
+            <span className="block font-mono text-[9px] uppercase tracking-[0.2em] text-[#44544d] font-bold mb-1">
               CATALOG EXTRACTED
             </span>
-            {/* 4 Cards: 92px wide x 120px tall, overlapping by 14px */}
-            <div className="relative flex items-center h-[130px] pl-2">
+            {/* 4 Cards: widened to 100px x 124px, no label clipping */}
+            <div className="relative flex items-center h-[130px] pl-1">
               {products.map((item, idx) => {
                 const isHovered = hoveredCard === idx;
-                const offsetSpread = hoveredCard !== null ? idx * 82 : idx * 72;
+                const offsetSpread = hoveredCard !== null ? idx * 86 : idx * 74;
                 const rotation = isHovered ? 0 : item.baseRot;
 
                 return (
@@ -218,23 +218,24 @@ export function LearnsYourBrand({ isActive = true }: SectionProps) {
                     animate={{
                       rotate: rotation,
                       x: offsetSpread,
-                      y: isHovered ? -6 : 0,
-                      scale: isHovered ? 1.05 : 1,
+                      y: isHovered ? -5 : 0,
+                      scale: isHovered ? 1.04 : 1,
                       zIndex: isHovered ? 20 : idx + 1,
                     }}
                     transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                    className="absolute top-0 w-[92px] h-[120px] rounded-[16px] bg-white border border-[rgba(11,107,74,0.12)] shadow-[0_8px_20px_rgba(0,0,0,0.06)] p-1.5 flex flex-col items-center justify-between cursor-pointer"
+                    className="absolute top-0 w-[100px] h-[124px] rounded-[16px] bg-white border border-[rgba(11,107,74,0.12)] shadow-[0_6px_18px_rgba(0,0,0,0.05)] p-1.5 flex flex-col items-center justify-between cursor-pointer"
                   >
-                    <div className="relative w-full h-[76px] rounded-[10px] bg-[#F7FAF8] flex items-center justify-center overflow-hidden">
+                    <div className="relative w-full h-[80px] rounded-[10px] bg-[#F7FAF8] flex items-center justify-center overflow-hidden">
                       <Image
                         src={item.src}
                         alt={item.title}
-                        width={60}
-                        height={68}
+                        width={64}
+                        height={70}
                         className="object-contain"
                       />
                     </div>
-                    <span className="font-mono text-[9px] uppercase tracking-wider text-[#0b0f0d] font-semibold text-center truncate w-full">
+                    {/* Ellipsis + 100% max-width + 9px font: guaranteed NO clipping */}
+                    <span className="font-mono text-[9px] uppercase tracking-normal text-[#0b0f0d] font-semibold text-center truncate max-w-full px-1 w-full">
                       {item.title}
                     </span>
                   </motion.div>
@@ -243,16 +244,16 @@ export function LearnsYourBrand({ isActive = true }: SectionProps) {
             </div>
           </motion.div>
 
-          {/* Palette Ribbon: Height 36px, hex shown on hover only */}
+          {/* Palette Ribbon: Height 34px, hex shown on hover only */}
           <motion.div
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.26, ease: EASE_OUT_CUBIC }}
+            transition={{ duration: 0.5, delay: 0.22, ease: EASE_OUT_CUBIC }}
           >
-            <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-[#44544d] font-bold mb-1.5">
+            <span className="block font-mono text-[9px] uppercase tracking-[0.2em] text-[#44544d] font-bold mb-1">
               BRAND PALETTE RIBBON
             </span>
-            <div className="relative w-full max-w-[360px] h-[36px] rounded-[14px] overflow-hidden flex border border-[rgba(11,107,74,0.1)] shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
+            <div className="relative w-full max-w-[340px] h-[34px] rounded-[12px] overflow-hidden flex border border-[rgba(11,107,74,0.1)] shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
               {palette.map((swatch, idx) => {
                 const isHovered = hoveredBand === idx;
                 return (
@@ -263,9 +264,8 @@ export function LearnsYourBrand({ isActive = true }: SectionProps) {
                     style={{ backgroundColor: swatch.hex }}
                     className="relative flex-1 h-full cursor-pointer transition-all duration-200 flex items-center justify-center group"
                   >
-                    {/* Hex badge shown on hover only */}
                     {isHovered && (
-                      <span className="absolute inset-0 flex items-center justify-center font-mono text-[9px] font-bold text-white bg-black/60 backdrop-blur-xs px-1 tracking-wider uppercase">
+                      <span className="absolute inset-0 flex items-center justify-center font-mono text-[8px] font-bold text-white bg-black/60 backdrop-blur-xs px-1 tracking-wider uppercase">
                         {swatch.hex}
                       </span>
                     )}
@@ -275,57 +275,57 @@ export function LearnsYourBrand({ isActive = true }: SectionProps) {
             </div>
           </motion.div>
 
-          {/* Stats: Big stat 48px serif + secondary stats 20px, hairline dividers, no boxes */}
+          {/* Stats: Big stat + hairline dividers (compact height) */}
           <motion.div
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.32, ease: EASE_OUT_CUBIC }}
-            className="pt-1"
+            transition={{ duration: 0.5, delay: 0.28, ease: EASE_OUT_CUBIC }}
+            className="pt-0.5"
           >
             {/* Big Stat */}
-            <div className="flex items-baseline gap-2.5 mb-2.5">
-              <span className="font-instrument text-[48px] font-normal tracking-tight text-[#0B6B4A] tabular-nums leading-none">
+            <div className="flex items-baseline gap-2 mb-1.5">
+              <span className="font-instrument text-[42px] sm:text-[46px] font-normal tracking-tight text-[#0B6B4A] tabular-nums leading-none">
                 {count.toLocaleString()}
               </span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#44544d] font-bold">
+              <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-[#44544d] font-bold">
                 ADS SCANNED
               </span>
             </div>
 
             {/* Hairline dividers metrics row (no boxes) */}
-            <div className="grid grid-cols-4 gap-2 pt-2 border-t border-[rgba(11,107,74,0.12)]">
+            <div className="grid grid-cols-4 gap-2 pt-1.5 border-t border-[rgba(11,107,74,0.12)]">
               <div className="flex flex-col">
-                <span className="font-instrument text-[20px] text-[#0b0f0d] font-normal tabular-nums leading-none">
+                <span className="font-instrument text-[19px] text-[#0b0f0d] font-normal tabular-nums leading-none">
                   528
                 </span>
-                <span className="font-sans text-[11px] text-[#44544d] mt-0.5">
+                <span className="font-sans text-[10px] text-[#44544d] mt-0.5">
                   days, top ad
                 </span>
               </div>
 
-              <div className="flex flex-col border-l border-[rgba(11,107,74,0.12)] pl-2.5">
-                <span className="font-instrument text-[20px] text-[#0b0f0d] font-normal tabular-nums leading-none">
+              <div className="flex flex-col border-l border-[rgba(11,107,74,0.12)] pl-2">
+                <span className="font-instrument text-[19px] text-[#0b0f0d] font-normal tabular-nums leading-none">
                   48%
                 </span>
-                <span className="font-sans text-[11px] text-[#44544d] mt-0.5">
+                <span className="font-sans text-[10px] text-[#44544d] mt-0.5">
                   discount-led
                 </span>
               </div>
 
-              <div className="flex flex-col border-l border-[rgba(11,107,74,0.12)] pl-2.5">
-                <span className="font-instrument text-[20px] text-[#0b0f0d] font-normal tabular-nums leading-none">
+              <div className="flex flex-col border-l border-[rgba(11,107,74,0.12)] pl-2">
+                <span className="font-instrument text-[19px] text-[#0b0f0d] font-normal tabular-nums leading-none">
                   40%
                 </span>
-                <span className="font-sans text-[11px] text-[#44544d] mt-0.5">
+                <span className="font-sans text-[10px] text-[#44544d] mt-0.5">
                   no captions
                 </span>
               </div>
 
-              <div className="flex flex-col border-l border-[rgba(11,107,74,0.12)] pl-2.5">
-                <span className="font-instrument text-[20px] text-[#0b0f0d] font-normal tabular-nums leading-none">
+              <div className="flex flex-col border-l border-[rgba(11,107,74,0.12)] pl-2">
+                <span className="font-instrument text-[19px] text-[#0b0f0d] font-normal tabular-nums leading-none">
                   2/wk
                 </span>
-                <span className="font-sans text-[11px] text-[#44544d] mt-0.5">
+                <span className="font-sans text-[10px] text-[#44544d] mt-0.5">
                   organic posts
                 </span>
               </div>

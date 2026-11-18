@@ -149,26 +149,26 @@ export function StudiesCompetitors({ isActive = true }: SectionProps) {
       {/* ================================================================= */}
       {/* TWO-COLUMN GRID: Column A (Left) & Column B (Right)              */}
       {/* ================================================================= */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-start">
         {/* =============================================================== */}
         {/* COLUMN A: Header, Description, Stats Pair & Button Pill         */}
         {/* =============================================================== */}
-        <div className="flex flex-col gap-4 sm:gap-5">
+        <div className="flex flex-col gap-2.5 sm:gap-3">
           {/* 02 Label + Gold hairline */}
           <motion.div
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: EASE_OUT_CUBIC }}
-            className="flex items-center gap-3"
+            className="flex items-center gap-2.5"
           >
             <span className="font-mono text-[11px] uppercase font-bold tracking-[0.2em] text-[#0B6B4A]">
               02
             </span>
-            <div className="w-10 h-[1px] bg-[#B79B5E]" />
+            <div className="w-8 h-[1px] bg-[#B79B5E]" />
           </motion.div>
 
-          {/* Title: clamp(34px, 3.8vw, 56px), line-height 1.04 */}
-          <h2 className="font-instrument text-[clamp(34px,3.8vw,56px)] leading-[1.04] font-normal tracking-tight text-[#0b0f0d]">
+          {/* Title: clamp(32px, 3.4vw, 50px), line-height 1.04 */}
+          <h2 className="font-instrument text-[clamp(32px,3.4vw,50px)] leading-[1.04] font-normal tracking-tight text-[#0b0f0d]">
             <span className="block overflow-hidden">
               <motion.span
                 className="block"
@@ -191,12 +191,12 @@ export function StudiesCompetitors({ isActive = true }: SectionProps) {
             </span>
           </h2>
 
-          {/* Description: 15px, line-height 1.55, max-width 420px, muted */}
+          {/* Description: 15px, line-height 1.5, max-width 420px, muted */}
           <motion.p
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.18, ease: EASE_OUT_CUBIC }}
-            className="font-sans text-[15px] leading-[1.55] text-[#44544d] max-w-[420px]"
+            transition={{ duration: 0.5, delay: 0.16, ease: EASE_OUT_CUBIC }}
+            className="font-sans text-[14px] sm:text-[15px] leading-[1.5] text-[#44544d] max-w-[420px]"
           >
             Senna reads your competitors&apos; ads and organic posts and thousands of
             reviews across Reddit and Amazon, then finds the audiences they are missing.
@@ -204,42 +204,42 @@ export function StudiesCompetitors({ isActive = true }: SectionProps) {
 
           {/* Stats Pair & CTA Pill Button */}
           <motion.div
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.25, ease: EASE_OUT_CUBIC }}
-            className="pt-2 flex flex-col gap-4"
+            transition={{ duration: 0.5, delay: 0.22, ease: EASE_OUT_CUBIC }}
+            className="pt-1 flex flex-col gap-3"
           >
             {/* Stats Row */}
-            <div className="flex items-center gap-6 sm:gap-8">
+            <div className="flex items-center gap-6 sm:gap-7">
               {/* Stat 1: 12,000+ */}
               <div className="flex flex-col">
-                <span className="font-instrument text-[48px] font-normal tracking-tight text-[#0b0f0d] tabular-nums leading-none">
+                <span className="font-instrument text-[42px] sm:text-[46px] font-normal tracking-tight text-[#0b0f0d] tabular-nums leading-none">
                   {reviewsCount >= 1000 ? reviewsCount.toLocaleString() : reviewsCount}+
                 </span>
-                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#44544d] font-bold mt-1.5">
+                <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-[#44544d] font-bold mt-1">
                   REVIEWS READ
                 </span>
               </div>
 
               {/* Hairline Divider */}
-              <div className="w-[1px] h-9 bg-[rgba(11,107,74,0.16)]" />
+              <div className="w-[1px] h-8 bg-[rgba(11,107,74,0.16)]" />
 
               {/* Stat 2: 214 */}
               <div className="flex flex-col">
-                <span className="font-instrument text-[48px] font-normal tracking-tight text-[#0b0f0d] tabular-nums leading-none">
+                <span className="font-instrument text-[42px] sm:text-[46px] font-normal tracking-tight text-[#0b0f0d] tabular-nums leading-none">
                   {rivalDaysCount}
                 </span>
-                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#44544d] font-bold mt-1.5">
+                <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-[#44544d] font-bold mt-1">
                   DAY TOP RIVAL AD
                 </span>
               </div>
             </div>
 
-            {/* Button Pill: Height 40px, Text 13px */}
-            <div className="pt-1">
+            {/* Button Pill: Height 38px, Text 12-13px */}
+            <div className="pt-0.5">
               <button
                 type="button"
-                className="group inline-flex items-center gap-2 h-[40px] px-5 rounded-full bg-[#0b0f0d] text-white text-[13px] font-semibold tracking-wide hover:bg-[#0B6B4A] transition-colors duration-200 shadow-sm cursor-pointer"
+                className="group inline-flex items-center gap-2 h-[38px] px-4.5 rounded-full bg-[#0b0f0d] text-white text-[12px] sm:text-[13px] font-semibold tracking-wide hover:bg-[#0B6B4A] transition-colors duration-200 shadow-sm cursor-pointer"
               >
                 <Sparkles className="w-3.5 h-3.5 text-[#B79B5E] group-hover:rotate-12 transition-transform duration-200" />
                 <span>+ Own all-day energy</span>
@@ -251,23 +251,22 @@ export function StudiesCompetitors({ isActive = true }: SectionProps) {
 
         {/* =============================================================== */}
         {/* COLUMN B: Three Persona Accordion Panels                        */}
-        {/* Compact row with height clamp(220px, 34vh, 300px)               */}
         {/* =============================================================== */}
         <motion.div
-          initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+          initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.2, ease: EASE_OUT_CUBIC }}
+          transition={{ duration: 0.55, delay: 0.18, ease: EASE_OUT_CUBIC }}
           className="w-full flex flex-col justify-center"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onFocus={() => setIsPaused(true)}
           onBlur={() => setIsPaused(false)}
         >
-          <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-[#44544d] font-bold mb-2">
+          <span className="block font-mono text-[9px] uppercase tracking-[0.2em] text-[#44544d] font-bold mb-1.5">
             AUDIENCE PERSONA RADAR
           </span>
 
-          <div className="w-full flex items-stretch gap-2 h-[clamp(220px,34vh,300px)] p-1.5 rounded-[22px] bg-black/[0.02] border border-[rgba(11,107,74,0.08)] overflow-hidden">
+          <div className="w-full flex items-stretch gap-2 h-[clamp(210px,32vh,270px)] p-1.5 rounded-[20px] bg-black/[0.02] border border-[rgba(11,107,74,0.08)] overflow-hidden">
             {PERSONAS.map((persona, idx) => {
               const isCurrent = idx === activePersonaIdx;
 

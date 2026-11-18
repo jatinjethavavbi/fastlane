@@ -1,6 +1,7 @@
 import React from 'react';
 import { LearnsYourBrand } from '@/components/showcase/sections/LearnsYourBrand';
 import { StudiesCompetitors } from '@/components/showcase/sections/StudiesCompetitors';
+import { CreatesTheAds } from '@/components/showcase/sections/CreatesTheAds';
 
 export interface SectionConfig {
   id: string;
@@ -21,5 +22,11 @@ export const sections: SectionConfig[] = [
     label: 'Studies competitors',
     index: 1,
     Component: StudiesCompetitors,
+  },
+  {
+    id: 'creates-the-ads',
+    label: 'Creates the ads',
+    index: 2,
+    Component: CreatesTheAds,
   },
 ];

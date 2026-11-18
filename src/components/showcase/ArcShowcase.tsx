@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'motion/react';
 import { sections as defaultSections, type SectionConfig } from '@/data/showcase';
 import { ArcDial } from './ArcDial';
 
@@ -23,8 +23,6 @@ export function ArcShowcase({
 
   // Discrete active section index (0 .. totalSections - 1)
   const [activeIndex, setActiveIndex] = useState(0);
-  // Continuous float position for dial rotation (0.0 .. totalSections - 1)
-  const [activeFloat, setActiveFloat] = useState(0);
   // Track scroll direction for content entry/exit animation (1 = down, -1 = up)
   const [direction, setDirection] = useState<number>(1);
   const prevProgressRef = useRef(0);
@@ -38,8 +36,8 @@ export function ArcShowcase({
 
       if (innerHeight > zoneHeight && zoneHeight > 0) {
         const ratio = zoneHeight / innerHeight;
-        // Apply scale down to minimum 0.78
-        setAutoScale(Math.min(1, Math.max(0.78, ratio * 0.98)));
+        // Apply smooth scale down to minimum 0.76 with slight buffer
+        setAutoScale(Math.min(1, Math.max(0.76, ratio * 0.96)));
       } else {
         setAutoScale(1);
       }
@@ -75,6 +73,13 @@ export function ArcShowcase({
     mass: 0.6,
   });
 
+  // Fractional section index [0, totalSections - 1]
+  const activeFloat = useTransform(
+    smoothProgress,
+    [0, 1],
+    [0, Math.max(1, totalSections - 1)]
+  );
+
   // Update active section and continuous float value
   useEffect(() => {
     const unsubscribe = smoothProgress.on('change', (latest) => {
@@ -86,14 +91,12 @@ export function ArcShowcase({
       prevProgressRef.current = latest;
 
       if (totalSections <= 1) {
-        setActiveFloat(0);
         setActiveIndex(0);
         return;
       }
 
       const clamped = Math.max(0, Math.min(1, latest));
       const floatVal = clamped * (totalSections - 1);
-      setActiveFloat(floatVal);
 
       const rounded = Math.min(
         totalSections - 1,
@@ -212,14 +215,14 @@ export function ArcShowcase({
         {/* Left padding: clamp(32px, 4vw, 64px)                          */}
         {/* Max width: calc(100vw - 26vw - 48px - leftPadding)            */}
         {/* ============================================================= */}
-        <div className="relative w-full flex-1 flex items-center h-[calc(100vh-88px-48px)] pt-[88px] pb-[48px] px-4 sm:px-6 md:px-0">
+        <div className="relative w-full flex-1 flex items-center h-full min-h-0 pt-20 sm:pt-24 pb-6 sm:pb-8 px-4 sm:px-6 md:px-0 box-border">
           {/* 
             LEFT CONTENT ZONE
             Dedicated clear zone that never overlaps the circle
           */}
           <div
             ref={contentZoneRef}
-            className="w-full z-20 flex flex-col justify-center h-full overflow-hidden
+            className="w-full z-20 flex flex-col justify-center h-full min-h-0 overflow-hidden
                        md:pl-[clamp(32px,4vw,64px)] 
                        md:max-w-[calc(100vw-18vw-48px-clamp(32px,4vw,64px))]
                        lg:max-w-[calc(100vw-26vw-48px-clamp(32px,4vw,64px))]"
@@ -280,7 +283,6 @@ export function ArcShowcase({
               activeIndex={activeIndex}
               onSelectSection={scrollToSection}
               arcColor={arcColor}
-              smoothProgress={smoothProgress}
             />
           </div>
         </div>
