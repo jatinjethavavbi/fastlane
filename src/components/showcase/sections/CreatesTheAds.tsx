@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion, AnimatePresence } from 'motion/react';
-import { Check, Sparkles, ArrowRight, Zap, Play } from 'lucide-react';
+import Image from 'next/image';
+import { Check, Sparkles, ArrowRight, Zap } from 'lucide-react';
 
 const EASE_OUT_CUBIC: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -15,7 +16,7 @@ interface AdCardItem {
   name: string;
   tag: string;
   imgSrc: string;
-  videoSrc: string;
+  videoSrc?: string;
   category: 'remix' | 'trending' | 'creator';
   angle: string;
 }
@@ -23,21 +24,21 @@ interface AdCardItem {
 const AD_ITEMS: AdCardItem[] = [
   {
     id: 'competitor',
-    name: 'Competitor Ad',
+    name: 'Competitor Product',
     tag: 'COMPETITOR',
-    imgSrc: '/showcase/ads/competitor.jpg',
-    videoSrc: '/ads/center-3.mp4',
+    imgSrc: '/showcase/ads/wallet_product.jpg',
+    videoSrc: '', // Static product image of the wallet
     category: 'remix',
-    angle: 'Benchmark: Huel single-benefit static angle',
+    angle: 'Input: Original product photo extracted from brand store',
   },
   {
     id: 'ag1-remix',
-    name: 'AG1 Remix',
-    tag: 'AG1 REMIX',
-    imgSrc: '/showcase/ads/ag1-remix.jpg',
-    videoSrc: '/ads/left-5.mp4',
+    name: 'Video Ad Remix',
+    tag: 'REMIX',
+    imgSrc: '/showcase/ads/wallet_product.jpg',
+    videoSrc: '/ads/left-5.mp4', // Live video ad of the wallet
     category: 'remix',
-    angle: 'Net-new rewrite: 75 whole-food vitamins hook',
+    angle: 'Output: Dynamic video ad remix created directly from product',
   },
   {
     id: 'chalkboard',
@@ -347,15 +348,16 @@ export function CreatesTheAds({ isActive = true }: SectionProps) {
 
           {/* Cards Container: 2 Rows matching the reference design with Live Videos */}
           <div className="w-full flex flex-col gap-2.5 p-2 rounded-[20px] bg-black/[0.02] border border-[rgba(11,107,74,0.08)]">
-            {/* ROW 1: Competitor -> Remix, Chalkboard, Claymation, Baby Podcast */}
+            {/* ROW 1: Competitor Product -> Remix Video, Chalkboard, Claymation, Baby Podcast */}
             <div className="flex items-center gap-1.5 sm:gap-2 justify-between">
               {row1.map((item, idx) => {
                 const isMatch = activeFilter === 'all' || activeFilter === item.category;
                 const isHovered = hoveredCard === item.id;
+                const hasVideo = Boolean(item.videoSrc);
 
                 return (
                   <React.Fragment key={item.id}>
-                    {/* Transfer arrow between competitor and ag1-remix */}
+                    {/* Transfer arrow between competitor product image and remix video */}
                     {idx === 1 && (
                       <div className="flex items-center justify-center shrink-0 w-4.5 h-4.5 rounded-full bg-black/80 text-white shadow-xs z-10">
                         <ArrowRight className="w-2.5 h-2.5 text-white" />
@@ -365,8 +367,10 @@ export function CreatesTheAds({ isActive = true }: SectionProps) {
                     <div
                       onMouseEnter={() => {
                         setHoveredCard(item.id);
-                        const v = videoRefs.current[item.id];
-                        if (v && v.paused) v.play().catch(() => {});
+                        if (hasVideo) {
+                          const v = videoRefs.current[item.id];
+                          if (v && v.paused) v.play().catch(() => {});
+                        }
                       }}
                       onMouseLeave={() => setHoveredCard(null)}
                       className={`relative flex-1 aspect-[9/15] rounded-[10px] sm:rounded-[12px] overflow-hidden cursor-pointer transition-all duration-200 border bg-black ${
@@ -377,20 +381,33 @@ export function CreatesTheAds({ isActive = true }: SectionProps) {
                           : 'border-black/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.04)]'
                       }`}
                     >
-                      {/* Video Player Background */}
-                      <video
-                        ref={(el) => {
-                          videoRefs.current[item.id] = el;
-                        }}
-                        src={item.videoSrc}
-                        poster={item.imgSrc}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
-                        className="absolute inset-0 w-full h-full object-cover"
-                      />
+                      {/* Media Display: Static Product Image for Card 1, Video for Card 2 & Others */}
+                      {hasVideo ? (
+                        <video
+                          ref={(el) => {
+                            videoRefs.current[item.id] = el;
+                          }}
+                          src={item.videoSrc}
+                          poster={item.imgSrc}
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          preload="metadata"
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="relative w-full h-full">
+                          <Image
+                            src={item.imgSrc}
+                            alt={item.name}
+                            fill
+                            sizes="(max-width: 768px) 18vw, 10vw"
+                            className="object-cover object-center"
+                            priority
+                          />
+                        </div>
+                      )}
 
                       {/* Approved checkmark overlay */}
                       <AnimatePresence>
@@ -423,14 +440,17 @@ export function CreatesTheAds({ isActive = true }: SectionProps) {
               {row2.map((item) => {
                 const isMatch = activeFilter === 'all' || activeFilter === item.category;
                 const isHovered = hoveredCard === item.id;
+                const hasVideo = Boolean(item.videoSrc);
 
                 return (
                   <div
                     key={item.id}
                     onMouseEnter={() => {
                       setHoveredCard(item.id);
-                      const v = videoRefs.current[item.id];
-                      if (v && v.paused) v.play().catch(() => {});
+                      if (hasVideo) {
+                        const v = videoRefs.current[item.id];
+                        if (v && v.paused) v.play().catch(() => {});
+                      }
                     }}
                     onMouseLeave={() => setHoveredCard(null)}
                     className={`relative flex-1 aspect-[9/15] rounded-[10px] sm:rounded-[12px] overflow-hidden cursor-pointer transition-all duration-200 border bg-black ${
@@ -441,20 +461,32 @@ export function CreatesTheAds({ isActive = true }: SectionProps) {
                         : 'border-black/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.04)]'
                     }`}
                   >
-                    {/* Video Player Background */}
-                    <video
-                      ref={(el) => {
-                        videoRefs.current[item.id] = el;
-                      }}
-                      src={item.videoSrc}
-                      poster={item.imgSrc}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="metadata"
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
+                    {/* Media Display: Video or Image */}
+                    {hasVideo ? (
+                      <video
+                        ref={(el) => {
+                          videoRefs.current[item.id] = el;
+                        }}
+                        src={item.videoSrc}
+                        poster={item.imgSrc}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={item.imgSrc}
+                          alt={item.name}
+                          fill
+                          sizes="(max-width: 768px) 18vw, 10vw"
+                          className="object-cover object-center"
+                        />
+                      </div>
+                    )}
 
                     {/* Approved checkmark overlay */}
                     <AnimatePresence>
